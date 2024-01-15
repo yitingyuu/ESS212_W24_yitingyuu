@@ -1,0 +1,15 @@
+---
+title: "ESS212-HW1"
+author: "Yiting Yu"
+date: "2024-01-15"
+output:
+  pdf_document: default
+---
+
+[Yiting's github repository url](https://github.com/yitingyuu/ESS212_W24_yitingyuu.git)
+
+# Problem 2
+```{r}
+language <- "R"
+cat(sprintf("%s says: Hello, World!\n", language))
+```
