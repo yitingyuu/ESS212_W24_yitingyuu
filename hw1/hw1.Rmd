@@ -4,15 +4,19 @@ author: "Yiting Yu"
 date: "2024-01-15"
 output:
   pdf_document: default
+  html_document:
+    df_print: paged
 ---
-
-[Yiting's github repository url](https://github.com/yitingyuu/ESS212_W24_yitingyuu.git)
+# Problem 1
+[Yiting's Github repository url](https://github.com/yitingyuu/ESS212_W24_yitingyuu.git)
 
 # Problem 2
 ```{r}
 language <- "R"
 cat(sprintf("%s says: Hello, World!\n", language))
 ```
+
+Please see the GitHub repository for Python, Julia, and Matlab code for question 2.
 
 # Problem 3
 
@@ -58,9 +62,12 @@ n <- c(1, 10, 100)
 ))
 ```
 
-* Describe the internal state of the programs during the computational process. 
+### Describe the internal state of the programs during the computational process. 
+ 
+The iterative algorithm initializes a sum variable S to 0 and iterates from 1 to n, accumulating the sum of numbers in each iteration. Once it reaches n, the function returns S, the total sum of the first n positive integers.   
+The recursive algorithm for summing integers from 1 to n decrements n and accumulates values until n is 1. As recursion unwinds, it adds each n to the total, returning the sum of integers from 1 to the original n.
 
-* Using either the recursive algorithm or the iterative algorithm, write and test computer programs to evaluate O1(n) and S2(n).
+### Using either the recursive algorithm or the iterative algorithm, write and test computer programs to evaluate O1(n) and S2(n).
 
 ```{r}
 # O_1(n)
@@ -123,7 +130,9 @@ n <- c(1, 10, 100)
 ))
 ```
 
-## Problem 4
+Please see the GitHub repository for Python, Julia, and Matlab code for question 3.
+
+# Problem 4
 
 $$
 \begin{aligned}
@@ -131,14 +140,99 @@ C(n,k)=C(n-1,k-1)+C(n-1,k)
 \end{aligned}
 $$
 
-* Write a procedure in your favorite computer language that uses Equation (7) evaluates $C(n, k)$ using a recursive algorithm.
+### Write a procedure in your favorite computer language that uses Equation (7) evaluates $C(n, k)$ using a recursive algorithm.
 
 ```{r}
+bino_coef <- function(n,k){
+  if (k < n && k > 0) {
+    C = choose(n-1, k-1) + choose(n-1, k)
+  }
+  else{
+    if (k > n){
+      C = 0
+    }
+    if (k == 0 || k == n){
+      C = 1
+    }
+  }
+  return(C)
+}
+
+# verify 
+n <- 180
+k <- 23
+(r_bino_coef <- data.frame(
+  n = n, k = k,
+  r1 = bino_coef(n, k),
+  r2 = choose(n, k)
+))
+```
+
+### Write a procedure in your favorite computer language that takes an integer n as input and prints out the n-th row of Pascal’s triangle.
+
+```{r}
+Pt_nrow <- function(n) {
+  row <- numeric(2*n-1)
+  row[seq(1, 2*n-1, by=2)] <- sapply(0:(n-1), function(k) choose(n-1, k))
+  
+  # Print the row
+  cat(row, "\n")
+}
+
+# verify:
+Pt_nrow(9)
+Pt_nrow(10)
+```
+
+# Problem 5
+
+$$
+\begin{aligned}
+S_n = \frac{a(1-r^n)}{1-r}
+\end{aligned}
+$$
+
+```{r}
+S_n <- function(a, n, r) {
+  if (n > 1) {
+    Sn = a*(r^(n-1)+S_n(a,n-1,r))
+  } 
+  else {
+    Sn = a
+  }
+  return(Sn)
+}
 
 ```
 
-* Write a procedure in your favorite computer language that takes an integer n as input and prints out the n-th row of Pascal’s triangle.
-
+### Write unit tests to demonstrate that your function works. Your tests should include cases where $r<0, r=0, 0<r<1, r=1, and \,r>1$.
 ```{r}
+library(testthat)
+a <- 1
+n <- 10
+# unit tests
+test_that("Test S_n function with various r values", {
+  # r < 0
+  expect_equal(S_n(a, n, -1), a*(1-(-1)^n) / (1-(-1)))
+  # r = 0
+  expect_equal(S_n(a, n, 0), a)
+  # 0 < r < 1
+  expect_equal(S_n(a, n, 0.5), a*(1-(0.5)^n) / (1-0.5))
+  # r = 1
+  expect_equal(S_n(a, n, 1), a*n)
+  # r > 1
+  expect_equal(S_n(a, n, 1.5), a*(1-1.5^n) / (1-1.5))
+})
 
 ```
+
+### For what values of r does the limit $\lim_{n\to\infty}$ $S_n$ exist? What is the limiting value?
+
+$$
+\begin{aligned}
+S_n = \frac{a(1-r^n)}{1-r}
+\end{aligned}
+$$
+
+When $|r|<1$, the limit $\lim_{n\to\infty}$ $S_n$ exist, the limiting value is $\frac{a}{1-r}$.   
+When $|r|\geq1$, the limit $\lim_{n\to\infty}$ $S_n$ doesn't exist. 
