@@ -1,7 +1,133 @@
-# ESS212 hw2
+---
+title: "ESS212-HW2"
+author: "Yiting Yu"
+date: "2024-02-09"
+output: pdf_document
+---
 
-# Problem 5
-## a)
+[Yiting's Github repository url](https://github.com/yitingyuu/ESS212_W24_yitingyuu.git)
+
+## Problem 1
+
+$$
+\begin{aligned}
+L[n+2]=&L[n+1]+L[n]\\
+L[0]=&2\\
+L[1]=&1
+\end{aligned}
+$$
+
+### a)
+
+$$
+\begin{aligned}
+L[2]=L[0]+L[1]=3\\
+L[3]=L[2]+L[1]=4\\
+L[4]=L[3]+L[2]=7
+\end{aligned}
+$$
+
+### b)
+
+$$
+\begin{aligned}
+L[n]=&A(\frac{1+\sqrt 5}{2})^n-B(\frac{1-\sqrt 5}{2})^n\\
+L[0]=&A(\frac{1+\sqrt 5}{2})^0-B(\frac{1-\sqrt 5}{2})^0\\
+=&A-B\\
+\Rightarrow& A-B=2\\
+L[1]=&A\frac{1+\sqrt 5}{2}-B\frac{1-\sqrt 5}{2}=1\\
+\Rightarrow&
+\begin{cases}
+A-B=2\\
+A\frac{1+\sqrt 5}{2}-B\frac{1-\sqrt 5}{2}=1
+\end{cases}
+\begin{cases}
+A=1\\
+B=-1
+\end{cases}\\
+verify:L[n]=&(\frac{1+\sqrt 5}{2})^n+(\frac{1-\sqrt 5}{2})^n\\
+L[n+1]=&(\frac{1+\sqrt 5}{2})^{n+1}+(\frac{1-\sqrt 5}{2})^{n+1}\\
+L[n]+L[n+1]=&(\frac{1+\sqrt 5}{2})^n(1+\frac{1+\sqrt 5}{2})+(\frac{1-\sqrt 5}{2})^n(1+\frac{1-\sqrt 5}{2})\\
+=&(\frac{1+\sqrt 5}{2})^n\frac{3+\sqrt 5}{2}+(\frac{1-\sqrt 5}{2})^n\frac{3-\sqrt 5}{2}\\
+=&(\frac{1+\sqrt 5}{2})^{n+2}+(\frac{1-\sqrt 5}{2})^{n+2}=L(n+2)
+\end{aligned}
+$$
+
+## Problem 2
+
+### a)
+
+![Figure 1: Block diagram for an input output system Problem 2(a)](/Users/m.f./Desktop/24win/ess212/homework/figure 1)
+
+$$ 
+\begin{aligned}
+y[n]=\alpha(y[n-1]+x[n])
+\end{aligned}
+$$
+
+### b)
+
+![Figure 2: Block diagram for an input output system Problem 2(b)](/Users/m.f./Desktop/24win/ess212/homework/figure 2)
+
+$$ 
+\begin{aligned}
+y[n]=\alpha(x[n]+x[n-1]+y[n-2])
+\end{aligned}
+$$
+
+## Problem 3
+
+### a)
+
+$$ 
+\begin{aligned}
+y[n]=0.2y[n-1]+\beta x[n]
+\end{aligned}
+$$
+
+![Figure 3: Block diagram for an input output system Problem 3(a)](/Users/m.f./Desktop/24win/ess212/homework/figure 3)
+
+### b)
+
+$$ 
+\begin{aligned}
+y[n]=2y[n-1]-y[n-2]+x[n]+x[n-1]
+\end{aligned}
+$$
+
+![Figure 4: Block diagram for an input output system Problem 3(b)](/Users/m.f./Desktop/24win/ess212/homework/figure 4)
+
+## Problem 4
+
+### a)
+
+$$ 
+\begin{aligned}
+y[n]=&0.2y[n-1]+\beta x[n]\\
+y[1]=&0.2y[0]+\beta x[1]\\
+y[0]=&0.2y[-1]+\beta x[0]
+\end{aligned}
+$$
+
+No, we need to know the value of $y[-1]$ to compute the value of $y[n]$ for $n=0,1,2,3,...,N$.
+
+### b)
+If $x[n]=0$ for $n>N$, then $y[n]=0.2y[n-1]$ for $n>N$.
+
+## Problem 5
+
+$$
+\begin{aligned}
+S[n+2]=&2S[n+1]+2S[n]\\
+S[0]=&0\\
+S[1]=&1
+\end{aligned}
+$$
+
+### a)
+
+```{r}
+# a)
 fn_Sn <- function(N) {
   S <- numeric(N + 1)  # initialize S with enough space
   
@@ -19,8 +145,51 @@ fn_Sn <- function(N) {
   
   return(S[N + 1])  # return the N-th term
 }
+```
 
-## c)
+### b)
+
+$$
+\begin{aligned}
+S[n]=Aa^n+Bb^n
+\end{aligned}
+$$
+
+$$
+\begin{aligned}
+S[n+2]=&2S[n+1]+2S[n]\\
+\Rightarrow &r^2=2r+2\\
+\Rightarrow &r^2-2r-2=0\\
+&r=\frac{2\pm\sqrt{(-2)^2-4\times (-2)}}{2}\\
+&a=1+\sqrt{3}\\
+&b=1-\sqrt{3}\\
+\end{aligned}
+$$
+
+$$
+\begin{aligned}
+initial\, condition:&
+\begin{cases}
+S[0]=0\\
+S[1]=1\\
+\end{cases}\\
+&\Rightarrow 
+\begin{cases}
+A+B=0\\
+(1+\sqrt3)A+(1-\sqrt3)B=1
+\end{cases}\\
+&\Rightarrow
+\begin{cases}
+A=\frac{\sqrt{3}}{6}\\
+B=-\frac{\sqrt{3}}{6}
+\end{cases}\\
+&\Rightarrow
+S[n]=\frac{\sqrt{3}}{6}(1+\sqrt{3})^n-\frac{\sqrt{3}}{6}(1-\sqrt{3})^n
+\end{aligned}
+$$
+
+### c)
+```{r}
 compute_Sn <- function(n) {
   A <- sqrt(3) / 6
   B <- - sqrt(3) / 6
@@ -54,9 +223,35 @@ test_fn_Sn <- function() {
 }
 
 test_fn_Sn()
+```
 
-# Problem 6
-## b)
+## Problem 6
+
+### a)
+
+$$
+\begin{aligned}
+x[n+1]=\frac{1}{2}(x[n]+\frac{c}{x[n]})
+\end{aligned}
+$$
+
+$$
+\begin{aligned}
+Newton's \, method:& \\
+x[n+1]=&x[n]-\frac{f(x[n])}{f'(x[n])}\\
+set\, f(x)=&x^2-c\\
+f(x[n])=&x[n]^2-c,\, f'([n])=2x[n]\\
+x[n+1]=&x[n]-\frac{x[n]^2-c}{2x[n]}\\
+=&x[n]-\frac{1}{2}x[n]+\frac{c}{2x[n]}\\
+=&\frac{1}{2}(x[n]+\frac{c}{x[n]})
+\end{aligned}
+$$
+
+Therefore, the above nonlinear recurrence relation can be used to compute the square root of c.
+
+### b)
+
+```{r}
 sqrt_est <- function(c, tol=1e-6) {
   if (c < 0) {
     stop("c must be non-negative")
@@ -76,8 +271,11 @@ sqrt_est <- function(c, tol=1e-6) {
 (sqrt_est(1225))
 (sqrt_est(pi))
 (sqrt_est(0.1004))
+```
 
-## c)
+### c)
+
+```{r}
 library(testthat)
 
 test_that("sqrt_est correctly estimates the square root", {
@@ -85,8 +283,14 @@ test_that("sqrt_est correctly estimates the square root", {
   expect_equal(sqrt_est(pi), sqrt(pi), tol = 1e-6)
   expect_equal(sqrt_est(0.1004), sqrt(0.1004), tol = 1e-6)
 })
+```
 
-# Problem 7
+### d)
+The values of $x_0=x[0]$ should be positive to converge the recurrence relation to the square root of c.
+
+## Problem 7
+
+```{r fig.width=6, fig.height=6}
 library(ggplot2)
 
 mandelbrot <- function(c, max_iter) {
@@ -116,7 +320,7 @@ for(i in 1:nrow(grid)) {
   points[[i]] <- mandelbrot(c, max_iter)
 }
 
-# convert the results to a dataframe
+# convert the results to a data frame
 grid$set <- unlist(points)
 
 ggplot(grid, aes(x, y)) + 
@@ -125,9 +329,36 @@ ggplot(grid, aes(x, y)) +
   scale_y_continuous(breaks = seq(-1.5, 1.5, by = 0.5)) +  theme_minimal() + 
   labs(title = "Mandelbrot Set", x = "Real(c)", y = "Imag(c)") + 
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+```
 
-# Problem 8
-## a)
+## Problem 8
+
+$$
+\begin{aligned}
+E_0=\frac{1}{2}mv^2+mgz\\
+t_0=0,\, v(0)=0\\
+E_o=mgz_0\, at\, time\, t_0=0\\
+\Rightarrow \frac{dz}{dt}=v=-\sqrt{2g(z-z_0)}\\
+z(0)=z_0\\
+z(t+\Delta t)=&z(t)+\Delta tv\\
+=& z(t)-\Delta t (\sqrt{2g(z-z_0)})
+\end{aligned}
+$$
+
+### a)
+
+$$
+\begin{aligned}
+z(\Delta t)=&z(0+\Delta t)\\
+=&z(0)+\Delta tv\\
+=&z_0-\Delta t (\sqrt{2g(z-z_0)})\\
+z(2\Delta t)=&z(0+2\Delta t)\\
+=&z(0)+2\Delta tv\\
+=&z_0-2\Delta t (\sqrt{2g(z-z_0)})\\
+\end{aligned}
+$$
+
+```{r}
 g <- 9.81 
 z0 <- 100 
 delta_t <- 1e-6 
@@ -153,8 +384,20 @@ real_t <- sqrt(2 * z0 / g)
 # Results
 cat("Time when z reaches 0 calculated by the Will-E scheme:", t, "seconds\n")
 cat("Time when z reaches 0 by the physical fact:", real_t, "seconds\n")
+```
+
+The expected time for Will-E to reach the bottom of the canyon is 4.51479 seconds. Will-E's scheme requires a very small time step ($\Delta t$), or the time computed using the Euler method is inaccurate. However, choosing a small enough time step may result in computationally inefficient results. Will-E's scheme doesn't satisfy the law of conservation of energy. 
 
 ## b)
+$$
+\begin{aligned}
+m\frac{d^2z}{dt^2}=&-mg\\
+\frac{dz}{dt}=&v\\
+\frac{dv}{dt}=&-g
+\end{aligned}
+$$
+
+```{r}
 g <- 9.81 
 z0 <- 100 
 m <- 1 
@@ -204,8 +447,12 @@ text(bottom_t, max(tt_es) * 0.5, labels = paste("z=0 at", round(bottom_t, 6), "s
 
 print(paste("Time when z=0 calculated by the Euler method:", round(bottom_t, 6), "seconds"))
 cat("Time when z reaches 0 by the physical fact:", real_t, "seconds\n")
+```
+
+The time when z reaches 0 calculated by the Euler forward scheme is better than the result computed by the Will-E scheme since it is closer to the real-time when z=0. However, the Euler forward scheme also doesn't satisfy the energy conservation principle.
 
 ## c)
+```{r}
 g <- 9.81 
 z0 <- 100 
 m <- 1 
@@ -258,3 +505,6 @@ text(t_bottom, max(tt_es) * 0.5, labels = paste("z=0 at", round(t_bottom, 6), "s
 
 print(paste("Time when z=0 calculated by the leap-frog scheme:", round(t_bottom, 6), "seconds"))
 cat("Time when z reaches 0 by the physical fact:", tt_time, "seconds\n")
+```
+
+The expected time for Will-E to reach the bottom computed by the leap-frog scheme is 4.515236 seconds, the same as the time calculated by the physical fact. Therefore, the leap-frog scheme satisfies the principle of conservation of energy, and it is better than the Euler forward and Will-E scheme.
